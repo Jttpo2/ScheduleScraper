@@ -2,11 +2,16 @@
   "name": "ScheduleScraper",
   "version": "0.0.1",
   "description": "Webapp for joining the schedules of CIU176 and TDA497",
+  "author": "John Petersson",
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Jttpo2/ScheduleScraper.git"
   },
   "dependencies": {
-    "express": "^4.13.3"
+    "cheerio": "^0.19.0",
+    "express": "^4.13.3",
+    "htmlparser": "^1.7.7",
+    "request": "^2.62.0"
   }
 }
