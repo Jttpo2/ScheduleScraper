@@ -1,14 +1,18 @@
-var http 		= require('http');
 var express 	= require('express');
 var app			= express();
+var http 		= require('http').Server(app);
+
+var port		= 8000;
 
 app.get('/', function() {
-	res.send 'Gotcha'
+	res.send('Gotcha');
 });
 
-http.createServer(function(req, res) {
 
-	res.writeHead(200, {'Content-Type': 'Text/plain'});
-	res.end('Tja!\n');
-}).listen(8000);
-console.log('Magic happens on 8000');
+
+
+
+
+http.listen(port, function(req, res) {
+	console.log('Magic happens on 8000');
+});
