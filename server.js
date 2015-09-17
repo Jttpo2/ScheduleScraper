@@ -1,5 +1,10 @@
 var http 		= require('http');
-//var express 	= 
+var express 	= require('express');
+var app			= express();
+
+app.get('/', function() {
+	res.send 'Gotcha'
+});
 
 http.createServer(function(req, res) {
 

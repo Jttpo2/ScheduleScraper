@@ -1,0 +1,8 @@
+{
+	"name": "ScheduleScraper",
+	"version": "0.0.1",
+	"description": "Webapp for joining the schedules of CIU176 and TDA497",
+	"dependencies": {
+		
+	}
+}
