@@ -5,12 +5,52 @@ var htmlparser	= require('htmlparser');
 var util		= require('util'); 				// Node util lib
 var request		= require('request');
 var cheerio		= require('cheerio');
-
+var fs 			= require('fs');
 
 var port		= 8000;
 
-var tda497Url = 'http://ixdcth.se/courses/2015/tda497/schedule'
+var tda497Url = 'http://ixdcth.se/courses/2015/tda497/schedule';
+var fileName = './temp/tda497.html';
 
+// Scrape urls and save to file system
+app.get('/scrapensave', function(req, res) {
+	var url = tda497Url;
+	
+	request(url, function(err, result, html) {
+		if (err) {
+			console.log('Error while scraping: ', err);
+			res.status(500).send(err);
+		}
+		console.log(html);
+
+		fs.writeFile(fileName, html, function(err) {
+			if (err) {
+				console.log('Error when writing file: ', err);
+				res.status(500).send(err);
+			}
+			console.log('File written');
+		});
+	});
+		res.send('Ok');	
+});
+
+app.get('/loadfromfile', function(req, res) {
+	var html = loadHtmlFromFile(fileName);
+	res.send(html);
+});
+
+function loadHtmlFromFile(fileName) {
+	options = {encoding: 'utf8'}
+	return fs.readFileSync(fileName, options);
+}
+
+function getScheduleHtmlForTDA497(html) {
+	
+	var result = null;
+	return result;
+}
+
+// Load html from file system and traverse 
 app.get('/', function(req, res) {
 	var url = tda497Url;
 
@@ -24,17 +64,12 @@ app.get('/', function(req, res) {
 		var courseName, courseCode;
 		var json = {};
 
-		/* parseHtml(html, function(parsedHtml) {
-			var schedule = findSchedule(parsedHtml);
-			res.json(parsedHtml);
-		});
-		*/
-
 		$('#block-block-1').filter(function() {
 			var data = $(this);
 			courseCode = data.children().last().children().last().children().last().children().first().children().first().children().first().text();//;
 			json.courseCode = courseCode;
 		});
+		
 		/*
 		$('.field-item').filter(function() {
 			var data = $(this);
@@ -47,42 +82,14 @@ app.get('/', function(req, res) {
 			json.courseName = courseName;
 		});
 		*/
-
 		// res.json(result);
 		res.json(json);
 
-	})
+	});
 });
 
-
-
-
-//var rawHtml = '<p>Blasdflasf</p>';
-/*
-// Init html parser
-var handler = new htmlparser.DefaultHandler(function(err, dom) {
-	if (err) {
-		console.log('Error: ', err);
-	} else {
-		console.log('Parsing done');
-	}
-});
-var parser = new htmlparser.Parser(handler);
-
-
-function parseHtml(rawHtml, cb) {
-	parser.parseComplete(rawHtml);
-	// Print parsed html
-	var parsedHtml = util.inspect(handler.dom, false, null);
-	console.log(parsedHtml);
-	cb(parsedHtml);
-}
-
-function findSchedule(html) {
-	return html
-}
-*/
 
 http.listen(port, function(req, res) {
 	console.log('Magic happens on 8000');
 });
+
