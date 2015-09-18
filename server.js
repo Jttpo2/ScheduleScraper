@@ -45,7 +45,8 @@ function loadHtmlFromFile(fileName) {
 }
 
 function getScheduleHtmlForTDA497(html) {
-	
+	var $ = cheerio.load(html);
+
 	var result = null;
 	return result;
 }

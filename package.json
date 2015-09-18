@@ -13,5 +13,9 @@
     "express": "^4.13.3",
     "htmlparser": "^1.7.7",
     "request": "^2.62.0"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "gulp": "^3.9.0"
   }
 }
