@@ -43,10 +43,34 @@ getScheduleHtmlForTDA497 = (html) ->
 	$ = cheerio.load html
 
 	result = null
+	$('.field-item.even').filter () ->
+		data = $(this)
+		result = data.children()
+		#json.courseCode = courseCode
+
+
+	#console.log 'Result: ', result
+	
 	return result
 
+############################# TODO: traverse and get the schedule content for week 1, day 1
+getScheduleForDay = (week, day) ->
+	html = loadHtmlFromFile fileName
+	scheduleHtml = getScheduleHtmlForTDA497 html
+
+	#$ = cheerio.load scheduleHtml
+	#$('h4').
 
 
+
+app.get '/', (req, res) ->
+	html = loadHtmlFromFile fileName
+	scheduleHtml = getScheduleHtmlForTDA497 html
+	
+	res.send scheduleHtml.text()
+
+
+###
 # Load html from file system and traverse 
 app.get '/', (req, res) ->
 	url = tda497Url
@@ -67,7 +91,6 @@ app.get '/', (req, res) ->
 			json.courseCode = courseCode
 		
 		
-		###
 		$('.field-item').filter(() {
 			data = $(this)
 			# result = util.inspect(data, false, 6)
@@ -78,10 +101,10 @@ app.get '/', (req, res) ->
 
 			json.courseName = courseName
 		})
-		###
+	
 		# res.json(result)
 		res.json json
-
+###
 
 
 http.listen port, (req, res) ->
