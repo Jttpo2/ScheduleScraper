@@ -39,35 +39,45 @@ loadHtmlFromFile = (fileName) ->
 	options = {encoding: 'utf8'}
 	fs.readFileSync fileName, options
 
-getScheduleHtmlForTDA497 = (html) ->
+extractScheduleForTDA497 = (html) ->
 	$ = cheerio.load html
 
-	result = null
-	$('.field-item.even').filter () ->
-		data = $(this)
-		result = data.children()
-		#json.courseCode = courseCode
-
-
-	#console.log 'Result: ', result
-	
+	result = $('.field-item.even')
 	return result
 
 ############################# TODO: traverse and get the schedule content for week 1, day 1
 getScheduleForDay = (week, day) ->
 	html = loadHtmlFromFile fileName
-	scheduleHtml = getScheduleHtmlForTDA497 html
+	$ = cheerio.load html
+	#$ = extractScheduleForTDA497 html
+	
+	result = null
+	result = $('p').filter (index) ->
+		return index == (week - 1) or index == week
+	
 
-	#$ = cheerio.load scheduleHtml
-	#$('h4').
+	console.log result.html()
+	#result = $('p').filter () ->
+	#	return $('strong', this)
 
 
+	#console.log result
+
+	return result
+
+
+	#wholeSchedule = extractScheduleForTDA497 html
+
+	# $ = cheerio.load scheduleHtml
+	# $('h4').
 
 app.get '/', (req, res) ->
 	html = loadHtmlFromFile fileName
-	scheduleHtml = getScheduleHtmlForTDA497 html
-	
-	res.send scheduleHtml.text()
+	#result = extractScheduleForTDA497 html
+	result = getScheduleForDay 1,1
+
+	res.send result.html()
+	#res.send html
 
 
 ###
